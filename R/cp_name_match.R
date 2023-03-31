@@ -1,9 +1,10 @@
 #' Name Matching
-#' 
+#'
 #' Match name against the name index
 #'
 #' @export
 #' @template args
+#' @param dataset_key (character/integer/numeric) dataset identifier
 #' @param q (character) scientific name to match
 #' @param rank (character) rank to restrict matches to. one of: domain,
 #' realm, subrealm, superkingdom, kingdom, subkingdom, infrakingdom,
@@ -36,16 +37,16 @@
 #' @return a named list, with slots `name` (list), `type` (character),
 #' `alternatives` (data.frame), and `nameKey` (integer)
 #' @examples
-#' if (cp_up("/name/matching?q=Apis")) { 
-#' cp_name_match(q="Apis")
+#' if (cp_up("/dataset/9812/match/nameusage?q=Apis")) {
+#' cp_name_match(9812, q="Apis")
 #' }
 #' \dontrun{
-#' cp_name_match(q="Agapostemon")
-#' cp_name_match(q="Apis mellifera")
-#' cp_name_match(q="Apis mellifer") # no fuzzy match apparently
+#' cp_name_match(9812, q="Agapostemon")
+#' cp_name_match(9812, q="Apis mellifera")
+#' cp_name_match(9812, q="Apis mellifer") # no fuzzy match apparently
 #' }
-cp_name_match <- function(q = NULL, rank = NULL, code = NULL, trusted = NULL,
-  ver_bose = NULL, start = 0, limit = 10, ...) {
+cp_name_match <- function(dataset_key, q = NULL, rank = NULL, code = NULL,
+  trusted = NULL, ver_bose = NULL, start = 0, limit = 10, ...) {
 
   assert(q, "character")
   assert(rank, "character")
@@ -56,5 +57,6 @@ cp_name_match <- function(q = NULL, rank = NULL, code = NULL, trusted = NULL,
   assert(limit, c("numeric", "integer"))
   args <- cc(list(q = q, rank = rank, code = code, trusted = trusted,
     verbose = ver_bose, offset = start, limit = limit))
-  cp_GET(col_base(), "name/matching", query = args, ...)
+  cp_GET(col_base(), glue::glue("dataset/{dataset_key}/match/nameusage"),
+    query = args, ...)
 }

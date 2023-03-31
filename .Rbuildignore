@@ -8,6 +8,7 @@ man-roxygen
 appveyor.yml
 ^README\.Rmd$
 ^README\.md$
+^README-not\.md$
 ^README-.*\.png$
 Makefile
 inst/vign

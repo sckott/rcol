@@ -15,6 +15,7 @@
 #' @param .list a named list. instead of passing in named parameters
 #' through `...`, you can pre-prepare a named list and give to this
 #' parameter
+#' @param query a named list of query parameters
 #' @details There are A LOT of datasets API routes. Instead of making
 #' an R function for each route, we have R functions for some of the
 #' "more important" routes, then `cp_ds()` will allow you to make
@@ -26,20 +27,20 @@
 #' always be a named list. when no results found, an error message
 #' will be returned
 #' @examples \dontrun{
-#' cp_ds(route = "{key}/tree", key = "1000")
-#' cp_ds(route = "{key}/tree", key = "1014")
+#' cp_ds(route = "{key}/tree", key = "9812")
+#' cp_ds(route = "{key}/tree", key = "2356")
 #' cp_ds(route = "{key}/name/{id}", key = 1005, id = 100003)
 #' 
 #' # pass a named list to the .list parameter
 #' args <- list(key = 1005, id = 100003)
 #' cp_ds("{key}/name/{id}", .list = args)
 #' }
-cp_ds <- function(route, ..., .list = list()) {
+cp_ds <- function(route, ..., .list = list(), query = list()) {
   route <- file.path("dataset", route)
   if (grepl("logo", route)) stop("logo route not supported", call.=FALSE)
   path <- if (length(.list))
     glue::glue_data(.list, route)
   else 
     glue::glue(route, ...)
-  cp_GET(col_base(), path)
+  cp_GET(col_base(), path, query)
 }

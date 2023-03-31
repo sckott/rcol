@@ -5,6 +5,7 @@
 \title{Name Matching}
 \usage{
 cp_name_match(
+  dataset_key,
   q = NULL,
   rank = NULL,
   code = NULL,
@@ -16,6 +17,8 @@ cp_name_match(
 )
 }
 \arguments{
+\item{dataset_key}{(character/integer/numeric) dataset identifier}
+
 \item{q}{(character) scientific name to match}
 
 \item{rank}{(character) rank to restrict matches to. one of: domain,
@@ -67,12 +70,12 @@ uninomials. Suprageneric ranks are all considered to be the same,
 otherwise a different rank results in a different match.
 }
 \examples{
-if (cp_up("/name/matching?q=Apis")) { 
-cp_name_match(q="Apis")
+if (cp_up("/dataset/9812/match/nameusage?q=Apis")) {
+cp_name_match(9812, q="Apis")
 }
 \dontrun{
-cp_name_match(q="Agapostemon")
-cp_name_match(q="Apis mellifera")
-cp_name_match(q="Apis mellifer") # no fuzzy match apparently
+cp_name_match(9812, q="Agapostemon")
+cp_name_match(9812, q="Apis mellifera")
+cp_name_match(9812, q="Apis mellifer") # no fuzzy match apparently
 }
 }
